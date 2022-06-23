@@ -34,7 +34,7 @@ public class Player extends GameObject{
     }
 
     @Override
-    public void render(Graphics g, int x, int y) {
+    public void render(Graphics g) {
         g.drawImage(playerImage, x, y, null);
     }
 
