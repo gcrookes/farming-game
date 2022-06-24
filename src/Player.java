@@ -11,8 +11,8 @@ public class Player extends GameObject{
 
     private BufferedImage playerImage;
 
-    public Player(ID id, Handler handler) {
-        super(1000, 1000, id);
+    public Player(int x, int y, ID id, Handler handler) {
+        super(x, y, id);
         this.handler = handler;
 
         velocity = 4;
@@ -30,7 +30,29 @@ public class Player extends GameObject{
     }
 
     private void collision() {
+        for (GameObject tempObj: handler.object) {
 
+            if (!(tempObj.getBounds().intersects(getBounds()))) {
+                continue;
+            }
+
+            if (tempObj instanceof Obstacle) {
+                // Calculate the distance between each edge of the player object and the obstical
+                int playerLeft = (int) (tempObj.getX() + tempObj.getBounds().getWidth() - x);
+                int playerRight = x + WIDTH - tempObj.getX();
+                int playerTop = (int) (tempObj.getY() + tempObj.getBounds().getHeight() - y);
+                int playerBottom = y + HEIGHT - tempObj.getY();
+
+                // Find out which integer is the smallest
+                int minDistance = Math.min(Math.min(playerLeft, playerRight), Math.min(playerTop, playerBottom));
+
+                // Offest the player by the smallest distance to get it to stop interfering
+                if (minDistance == playerLeft)      x += playerLeft;
+                if (minDistance == playerRight)     x -= playerRight;
+                if (minDistance == playerTop)       y += playerTop;
+                if (minDistance == playerBottom)    y -= playerBottom;
+            }
+        }
     }
 
     @Override
