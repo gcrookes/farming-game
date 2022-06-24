@@ -2,17 +2,23 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
-    
+
+    private final Game game;
     private Handler handler;
     private boolean[] keyDown = new boolean[4];
 
-    public KeyInput(Handler handler) {
+    public KeyInput(Handler handler, Game game) {
         this.handler = handler;
+        this.game = game;
     }
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        
+
+        if (key == KeyEvent.VK_EQUALS) game.increaseScale();
+        if (key == KeyEvent.VK_MINUS) game.decreaseScale();
+
+
         for (int i = 0; i < handler.object.size(); i++) {
 
             GameObject tempObject = handler.object.get(i);
@@ -23,6 +29,8 @@ public class KeyInput extends KeyAdapter {
                 if (key == KeyEvent.VK_LEFT) {tempObject.setVelX(-1); keyDown[2] = true;}
                 if (key == KeyEvent.VK_RIGHT) {tempObject.setVelX(1); keyDown[3] = true;}
             }
+
+            break;
         }
     }
 

@@ -1,10 +1,11 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable {
     public static final long serialVersionUID = 1550691097823471818L;
-    public static boolean DEV_MODE = true;
+    public static boolean DEV_MODE = false;
     private Thread thread;
     private boolean running = false;
     private Handler handler;
@@ -13,11 +14,12 @@ public class Game extends Canvas implements Runnable {
     private Window window;
     private Player player;
     private int frameRate;
+    private double scale = 1.25;
 
     public Game() {
 
         handler = new Handler();
-        this.addKeyListener(new KeyInput(handler));
+        this.addKeyListener(new KeyInput(handler, this));
 //        this.addMouseListener(menu);
 
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -51,18 +53,6 @@ public class Game extends Canvas implements Runnable {
         } catch(Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static int clamp( int var, int min, int max) {
-        if (var >= max) {
-            return max;
-        }
-        
-        if (var <= min) {
-            return min;
-        }
-
-        return var;
     }
 
     public void run() {
@@ -114,12 +104,14 @@ public class Game extends Canvas implements Runnable {
 
         Graphics g = bs.getDrawGraphics();
 
+        ((Graphics2D) g).scale(scale,scale);
+
         // Make the player always render at the center of the screen. To achieve this without messing up the
         // x and y axis of the graphic. Offset the graphic left and up by the x position of the player - the
         // distance between the corner of the window and the corner of the player
         Rectangle playerBox = this.player.getBounds();
-        int xOffset = (int) (playerBox.getX() - (window.width() - playerBox.getWidth()) / 2);
-        int yOffset = (int) (playerBox.getY() - (window.height() - playerBox.getHeight()) / 2 - 20);
+        int xOffset = (int) (playerBox.getX() - (window.width() - playerBox.getWidth()*scale) / 2 / scale);
+        int yOffset = (int) (playerBox.getY() - ((window.height() - playerBox.getHeight()*scale) / 2 - 20) / scale);
         g.translate(-xOffset, -yOffset);
 
         // Draw the background image on the frame
@@ -129,15 +121,12 @@ public class Game extends Canvas implements Runnable {
         handler.render(g);
 
         if (DEV_MODE) {
-            // Create a FPS counter in the top left corner
-            g.setColor(Color.white);
-            g.fillRect(xOffset + 15, yOffset + 6, 60, 60);
-            g.setColor(Color.BLACK);
-            g.drawString("FPS: " + frameRate,   xOffset + 20, yOffset + 20);
-            g.drawString("X: " + player.getX(), xOffset + 20, yOffset + 40);
-            g.drawString("Y: " + player.getY(), xOffset + 20, yOffset + 60);
-
+            // Create a display in the top left corner of the screen with usefull stats
+            ((Graphics2D) g).scale(1/scale, 1/scale);
+            BufferedImage display = HUD.DevelopmentWindow(frameRate, player.getX(), player.getY());
+            g.drawImage(display, (int) (xOffset * scale + 20), (int) (yOffset * scale + 20), null);
         }
+
         // Get rid of the graphic and show the buffer
         g.dispose();
         bs.show();
@@ -149,5 +138,15 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(String[] args) {
         new Game();
+    }
+
+    public void increaseScale() {
+        scale += 0.25;
+        scale = Calcs.clamp(scale, 0.75, 3);
+    }
+
+    public void decreaseScale() {
+        scale -= 0.25;
+        scale = Calcs.clamp(scale, 0.75, 3);
     }
 }
