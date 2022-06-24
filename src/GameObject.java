@@ -3,15 +3,13 @@ import java.awt.*;
 public abstract class GameObject {
     
     protected int x, y;
-    protected ID id;
     protected int velX, velY;
     protected int velocity;
 
 
-    public GameObject(int x, int y, ID id) {
+    public GameObject(int x, int y) {
         this.x = x;
         this.y = y;
-        this.id = id;
     }
 
     public abstract void tick();
@@ -32,10 +30,6 @@ public abstract class GameObject {
 
     public int getY() {
         return y;
-    }
-
-    public ID getId() {
-        return id;
     }
 
     public void setVelX(int direction) {

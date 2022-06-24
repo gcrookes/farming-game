@@ -5,36 +5,34 @@ import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable {
     public static final long serialVersionUID = 1550691097823471818L;
-    public static boolean DEV_MODE = false;
+    public static boolean DEV_MODE = true;
     private Thread thread;
     private boolean running = false;
     private Handler handler;
-    public static SpriteSheet backgroundImages, characterImages;
-    private static BufferedImage background;
+    public static SpriteSheet characterImages;
     private Window window;
     private Player player;
     private int frameRate;
     private double scale = 1.25;
+    private MouseInput mInput;
+    private Background background;
+    private BufferedImage tileImage;
 
     public Game() {
 
-        handler = new Handler();
+        handler = new Handler(this);
         this.addKeyListener(new KeyInput(handler, this));
-//        this.addMouseListener(menu);
+        mInput = new MouseInput();
+        this.addMouseListener(mInput);
 
         BufferedImageLoader loader = new BufferedImageLoader();
-        backgroundImages = new SpriteSheet(loader.loadImage("/Backgrounds.png"));
         characterImages = new SpriteSheet(loader.loadImage("/Characters.png"));
-        background = backgroundImages.grabImage(1, 1, 4000 - 1, 2500 - 1);
+        background = new Background("/Backgrounds.png", handler);
 
-        this.player = new Player(750, 550, ID.Player, handler);
+        tileImage = Game.characterImages.grabImage(0,1,32,32);
+
+        this.player = new Player(750, 550, handler);
         handler.addObject(player);
-
-        handler.addObject(new Obstacle(0,  450, 4000,50,ID.Obstacle, handler));
-        handler.addObject(new Obstacle(0, 2000, 4000,50,ID.Obstacle, handler));
-        handler.addObject(new Obstacle(650, 0, 50,2500,ID.Obstacle, handler));
-        handler.addObject(new Obstacle(3300,0, 50,2500,ID.Obstacle, handler));
-        handler.addObject(new Obstacle(1755,1180, 2530 - 1755,1720 - 1180,ID.Obstacle, handler));
 
         window = new Window(800, 500, "Farming Game", this);
 
@@ -115,16 +113,20 @@ public class Game extends Canvas implements Runnable {
         g.translate(-xOffset, -yOffset);
 
         // Draw the background image on the frame
-        g.drawImage(background, 0, 0, null);
+        g.drawImage(background.getImage(), 0, 0, null);
+
+        if (mInput.isClicked()) {
+            background.paintTile(player.getBounds(), tileImage);
+        }
 
         // Render all the game objects
         handler.render(g);
 
         if (DEV_MODE) {
             // Create a display in the top left corner of the screen with usefull stats
-            ((Graphics2D) g).scale(1/scale, 1/scale);
+            ((Graphics2D) g).scale(1/scale * 1.25, 1/scale * 1.25);
             BufferedImage display = HUD.DevelopmentWindow(frameRate, player.getX(), player.getY());
-            g.drawImage(display, (int) (xOffset * scale + 20), (int) (yOffset * scale + 20), null);
+            g.drawImage(display, (int) (xOffset * scale / 1.25 + 20), (int) (yOffset * scale / 1.25 + 20), null);
         }
 
         // Get rid of the graphic and show the buffer
@@ -133,7 +135,9 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
+
         handler.tick();
+
     }
 
     public static void main(String[] args) {
@@ -148,5 +152,12 @@ public class Game extends Canvas implements Runnable {
     public void decreaseScale() {
         scale -= 0.25;
         scale = Calcs.clamp(scale, 0.75, 3);
+    }
+
+    public Rectangle getWindow() {
+        Rectangle playerBox = player.getBounds();
+        int xOffset = (int) (playerBox.getX() - (window.width() - playerBox.getWidth()*scale) / 2 / scale);
+        int yOffset = (int) (playerBox.getY() - ((window.height() - playerBox.getHeight()*scale) / 2 - 20) / scale);
+        return new Rectangle(xOffset, yOffset, (int) (window.width() / scale), (int) (window.height() / scale));
     }
 }

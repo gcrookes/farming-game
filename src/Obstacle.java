@@ -11,8 +11,8 @@ public class Obstacle extends GameObject{
 
     private BufferedImage playerImage;
 
-    public Obstacle(int x, int y, int width, int height,  ID id, Handler handler) {
-        super(x, y, id);
+    public Obstacle(int x, int y, int width, int height, Handler handler) {
+        super(x, y);
         this.handler = handler;
         this.width = width;
         this.height = height;
@@ -29,10 +29,8 @@ public class Obstacle extends GameObject{
 
     @Override
     public void render(Graphics g) {
-        if (Game.DEV_MODE) {
-            g.setColor(Color.RED);
-            g.drawRect(x, y, width, height);
-        }
+        g.setColor(Color.RED);
+        g.drawRect(x, y, width, height);
     }
 
     @Override

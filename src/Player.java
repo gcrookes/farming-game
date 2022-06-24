@@ -11,12 +11,12 @@ public class Player extends GameObject{
 
     private BufferedImage playerImage;
 
-    public Player(int x, int y, ID id, Handler handler) {
-        super(x, y, id);
+    public Player(int x, int y, Handler handler) {
+        super(x, y);
         this.handler = handler;
 
         velocity = 4;
-        playerImage = Game.characterImages.grabImage(1,1,31,63);
+        playerImage = Game.characterImages.grabImage(0,0,32,64);
     }
 
     @Override
@@ -53,6 +53,10 @@ public class Player extends GameObject{
                 if (minDistance == playerBottom)    y -= playerBottom;
             }
         }
+    }
+
+    public void hoe() {
+
     }
 
     @Override

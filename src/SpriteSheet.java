@@ -7,8 +7,8 @@ public class SpriteSheet {
         this.sprite = sprite;
     }
 
-    public BufferedImage grabImage(int col, int row, int width, int height) {
-        BufferedImage image = sprite.getSubimage((row * 32 - 31), (col * 32 - 31), width, height);
+    public BufferedImage grabImage(int row, int col, int width, int height) {
+        BufferedImage image = sprite.getSubimage((col * 32), (row * 32), width, height);
         return image;
     }
 }
