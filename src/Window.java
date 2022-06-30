@@ -8,6 +8,7 @@ public class Window extends Canvas {
     private JFrame frame;
 
     public Window(int width, int height, String title, Game game) {
+
         frame = new JFrame(title);
 
         frame.setMinimumSize(new Dimension(width, height));
@@ -17,6 +18,7 @@ public class Window extends Canvas {
         frame.add(game);
         frame.setVisible(true);
         game.start();
+
     }
 
     public int width() {

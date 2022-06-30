@@ -32,9 +32,10 @@ public class Background {
         int x = (int) ((player.getX() + player.getWidth() / 2) / 32) * 32;
         int y = (int) ((player.getY() + player.getHeight()) / 32) * 32;
         g.drawImage(image, x, y, null);
+        g.dispose();
     }
 
-    public BufferedImage getImage() {
-         return activeBackground;
+    public void render(Graphics g) {
+        g.drawImage(activeBackground, 0 , 0, null);
     }
 }

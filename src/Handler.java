@@ -1,15 +1,10 @@
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.awt.Graphics;
 
 public class Handler {
 
-    private Game game;
     LinkedList<GameObject> object = new LinkedList<GameObject>();
-
-
-    public Handler(Game game) {
-        this.game = game;
-    }
     
     public void tick(){
         for (int i = 0; i < object.size(); i++) {
@@ -19,16 +14,20 @@ public class Handler {
     }
 
     public void render(Graphics g){
-        for (int i = 0; i < object.size(); i++) {
-            GameObject tempObject = object.get(i);
 
+        // Iterate over all elements in the linked list and render them
+        Iterator it = object.iterator();
+        while (it.hasNext()){
+
+            GameObject tempObject = (GameObject) it.next();
+
+            // Don't render obstacles unless DEV_MODE is true
             if (tempObject instanceof Obstacle && !Game.DEV_MODE) {
                 continue;
             }
 
-            if (tempObject.getBounds().intersects(game.getWindow())) {
-                tempObject.render(g);
-            }
+            tempObject.render(g);
+
         }
     }
 

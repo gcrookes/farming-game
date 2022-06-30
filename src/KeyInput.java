@@ -3,20 +3,20 @@ import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
 
-    private final Game game;
+    private final Display display;
     private Handler handler;
     private boolean[] keyDown = new boolean[4];
 
-    public KeyInput(Handler handler, Game game) {
+    public KeyInput(Handler handler, Display display) {
         this.handler = handler;
-        this.game = game;
+        this.display = display;
     }
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_EQUALS) game.increaseScale();
-        if (key == KeyEvent.VK_MINUS) game.decreaseScale();
+        if (key == KeyEvent.VK_EQUALS) display.increaseScale();
+        if (key == KeyEvent.VK_MINUS) display.decreaseScale();
 
         for (int i = 0; i < handler.object.size(); i++) {
 
@@ -41,12 +41,7 @@ public class KeyInput extends KeyAdapter {
 
             GameObject tempObject = handler.object.get(i);
 
-            System.out.println(tempObject instanceof Player);
-
             if (tempObject instanceof Player) {
-
-                System.out.println(tempObject);
-                System.out.println(key);
                 
                 if (key == KeyEvent.VK_UP) keyDown[0] = false;
                 if (key == KeyEvent.VK_DOWN) keyDown[1] = false;

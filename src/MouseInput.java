@@ -11,7 +11,6 @@ public class MouseInput extends MouseAdapter {
 
         xClick = e.getX();
         yClick = e.getY();
-        System.out.println("Clicked");
 
     }
 
