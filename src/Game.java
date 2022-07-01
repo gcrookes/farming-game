@@ -1,20 +1,18 @@
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable {
     public static final long serialVersionUID = 1550691097823471818L;
     public static boolean DEV_MODE = true;
     private Thread thread;
     private boolean running = false;
-    private Handler handler;
+    private final Handler handler;
     public static SpriteSheet characterImages;
-    private Window window;
-    private Player player;
+    private final Window window;
+    private final Player player;
     public int frameRate;
-    private MouseInput mInput;
-    private Display display;
+    private final MouseInput mInput;
+    private final Display display;
 
     public Game() {
 
@@ -31,6 +29,8 @@ public class Game extends Canvas implements Runnable {
         display = new Display(window, player, handler);
 
         handler.addObject(player);
+        mInput.addClickable(display);
+        mInput.addClickable(display.getToolBar());
 
         this.addKeyListener(new KeyInput(handler, display));
 
@@ -86,7 +86,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     /**
-     * Method to render the game. Renders all the gameobjects as part of a bufferstrategy. Runs on every tick.
+     * Method to render the game. Renders all the game objects as part of a bufferstrategy. Runs on every tick.
      */
     private void render() {
         // Create a buffer strategy and make graphics out of it
@@ -96,11 +96,6 @@ public class Game extends Canvas implements Runnable {
             // Create a three layer buffer on the first render
             this.createBufferStrategy(3);
             return;
-        }
-
-        if (mInput.isClicked()) {
-            display.mouseInput();
-
         }
 
         Graphics g = bs.getDrawGraphics();
@@ -115,9 +110,8 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
-
+        if (display != null) display.tick();
         handler.tick();
-
     }
 
     public static void main(String[] args) {

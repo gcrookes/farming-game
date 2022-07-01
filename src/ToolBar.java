@@ -1,23 +1,28 @@
 import java.awt.*;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
-public class ToolBar extends GameObject{
+public class ToolBar extends GameObject implements Clickable{
 
     private BufferedImage hoeImage, seedImage;
-    private int width, height, itemSelected = 0;
+    private int width, height, x, y, xOffset, yOffset, itemSelected = 0;
+    private MouseInput mInput;
+    private Window window;
 
-    public ToolBar() {
+    public ToolBar(Window window) {
         super(0, 0);
 
         hoeImage = Game.characterImages.grabImage(0,3, 32,32);
         seedImage = Game.characterImages.grabImage(1,3,32,32);
+        this.window = window;
 
+        width = 360;
+        height = 50;
     }
 
     public BufferedImage toolBarDisplay() {
 
-        width = 360;
-        height = 50;
+
 
         BufferedImage display = new BufferedImage(width,height,1);
         Graphics g = display.getGraphics();
@@ -54,16 +59,31 @@ public class ToolBar extends GameObject{
 
     @Override
     public void tick() {
-
+        this.x = (window.width()-width)/2;
+        this.y = window.height()-height-50;
     }
 
     @Override
     public void render(Graphics g) {
-
+        g.drawImage(toolBarDisplay(), x + xOffset, y + yOffset,null);
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(0,0,width,height);
+        return new Rectangle(x,y,width,height);
+    }
+
+    public void setOffset(int xOffset, int yOffset) {
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+    }
+
+    @Override
+    public void clicked(int xClick, int yClick) {
+        itemSelected = (xClick - x - 10) / 38;
+    }
+
+    public int getTool() {
+        return itemSelected;
     }
 }

@@ -6,6 +6,7 @@ public class Background {
     private BufferedImage activeBackground, farmBackground;
     private static SpriteSheet backgroundImages;
     private Handler handler;
+    private int[][] fieldState;
 
     public Background(String path, Handler handler) {
         this.handler = handler;
@@ -13,6 +14,7 @@ public class Background {
         BufferedImageLoader loader = new BufferedImageLoader();
         backgroundImages = new SpriteSheet(loader.loadImage(path));
         activeBackground = createFarmBackground();
+        fieldState = new int[activeBackground.getWidth()/32+1][activeBackground.getHeight()/32+1];
     }
 
     public BufferedImage createFarmBackground() {
@@ -38,4 +40,20 @@ public class Background {
     public void render(Graphics g) {
         g.drawImage(activeBackground, 0 , 0, null);
     }
+
+    public int tileStatus(int x, int y) {
+        int[] tile = getTile(x,y);
+        return fieldState[tile[0]][tile[1]];
+    }
+
+    public void setStatus(int x, int y, int status){
+        int[] tile = getTile(x,y);
+        fieldState[tile[0]][tile[1]] = status;
+    }
+
+    private int[] getTile(int x, int y) {
+        int[] ints = {x / 32 - 1, y / 32 - 1};
+        return ints;
+    }
+
 }
