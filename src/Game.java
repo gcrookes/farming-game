@@ -100,6 +100,7 @@ public class Game extends Canvas implements Runnable {
 
         if (mInput.isClicked()) {
             display.mouseInput();
+
         }
 
         Graphics g = bs.getDrawGraphics();

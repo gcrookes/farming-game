@@ -1,5 +1,6 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.SortedMap;
 
 public class KeyInput extends KeyAdapter {
 
@@ -30,6 +31,9 @@ public class KeyInput extends KeyAdapter {
                 break;
             }
 
+            if (tempObject instanceof ToolBar) {
+                if (key >= KeyEvent.VK_1 && key <= KeyEvent.VK_9) ((ToolBar) tempObject).setItem(key - KeyEvent.VK_1);
+            }
 
         }
     }

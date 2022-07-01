@@ -26,6 +26,7 @@ public class Display {
         this.tileImage = Game.characterImages.grabImage(0,1,32,32);
         this.string = " ";
         this.handler = handler;
+        this.handler.addObject(toolBar);
     }
 
     /**
@@ -70,6 +71,7 @@ public class Display {
 
     public void mouseInput() {
         background.paintTile(player.getBounds(), tileImage);
+        toolBar.nextItem();
     }
 
     public void increaseScale() {

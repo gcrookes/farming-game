@@ -17,9 +17,9 @@ public class MouseInput extends MouseAdapter {
     public void mouseReleased(MouseEvent e) {
 
         clicked = true;
-//        if (mouseOver(10,10,90,40)) {
-//            System.out.println("Do Something");
-//        }
+        if (mouseOver(10,10,90,40)) {
+            System.out.println("Do Something");
+        }
 
     }
 
