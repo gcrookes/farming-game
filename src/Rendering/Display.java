@@ -1,17 +1,19 @@
-import org.w3c.dom.css.Rect;
+package Rendering;
+
+import GameLogic.Calcs;
+import GameLogic.Game;
+import GameObjects.Player;
+import InputOutput.Handler;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.image.BufferedImage;
-import java.sql.SQLOutput;
 
-public class Display implements Clickable{
+public class Display implements Clickable {
 
     private Window window;
     private double scale = 1.25;
     private Background background;
-    private BufferedImage hoedTileImage, plantedTileImage, displayImage;
+    private BufferedImage displayImage;
     private ToolBar toolBar;
     private Handler obstacles = new Handler();
     private Player player;
@@ -23,8 +25,8 @@ public class Display implements Clickable{
         this.background = new Background("/Backgrounds.png", handler);
         this.toolBar = new ToolBar(this.window);
         this.player = player;
-        this.hoedTileImage = Game.characterImages.grabImage(0,1,32,32);
-        this.plantedTileImage = Game.characterImages.grabImage(1,1,32,32);
+
+
         this.string = " ";
         this.handler = handler;
         this.handler.addObject(this.toolBar);
@@ -52,6 +54,7 @@ public class Display implements Clickable{
         background.render(g);
         player.render(g);
         handler.render(g);
+        background.renderInFrontOfPlayer(g, (int) (playerBox.getX() + playerBox.getWidth() / 2), (int) (playerBox.getY() + playerBox.getHeight()));
 
         // Reset the scale to draw UI elements
         ((Graphics2D) g).scale(1/scale, 1/scale);
@@ -68,10 +71,6 @@ public class Display implements Clickable{
         }
     }
 
-    public void mouseInput() {
-        background.paintTile(player.getBounds(), hoedTileImage);
-    }
-
     public void increaseScale() {
         scale += 0.25;
         scale = Calcs.clamp(scale, 0.75, 3);
@@ -85,20 +84,10 @@ public class Display implements Clickable{
     @Override
     public void clicked(int xClick, int yClick) {
         Rectangle playerRect = player.getBounds();
-        int px = playerRect.x;
-        int py = playerRect.y;
-        switch (toolBar.getTool()) {
-            case 0:
-                background.setStatus(px, py, 1);
-                background.paintTile(playerRect, hoedTileImage);
-                break;
-            case 1:
-                if (background.tileStatus(px,py) == 1) {
-                    background.setStatus(px, py, 2);
-                    background.paintTile(player.getBounds(), plantedTileImage);
-                }
-                break;
-        }
+        int px = (int) (playerRect.x + playerRect.getWidth() / 2);
+        int py = (int) (playerRect.y + playerRect.getHeight());
+
+        background.updateTile(px, py, toolBar.getTool());
 
     }
 

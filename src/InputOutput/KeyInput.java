@@ -1,6 +1,12 @@
+package InputOutput;
+
+import GameObjects.GameObject;
+import GameObjects.Player;
+import Rendering.Display;
+import Rendering.ToolBar;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.SortedMap;
 
 public class KeyInput extends KeyAdapter {
 

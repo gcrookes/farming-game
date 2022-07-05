@@ -1,3 +1,7 @@
+package Rendering;
+
+import GameLogic.Game;
+
 import java.awt.Canvas;
 import java.awt.Dimension;
 import javax.swing.JFrame;

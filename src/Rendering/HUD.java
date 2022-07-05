@@ -1,10 +1,12 @@
+package Rendering;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class HUD {
 
     /**
-     * Method to create a basic HUD for debugging purposes that displays a framerate and the player cooridnates
+     * Method to create a basic Rendering.HUD for debugging purposes that displays a framerate and the player cooridnates
      *
      * @param frameRate the frame rate the game is currently running at
      * @param x the x position of the player

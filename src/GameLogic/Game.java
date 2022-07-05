@@ -1,5 +1,24 @@
+package GameLogic;
+
+import GameItems.GameItem;
+import GameObjects.Crop;
+import GameObjects.GameObject;
+import GameObjects.Player;
+import InputOutput.KeyInput;
+import InputOutput.MouseInput;
+import Rendering.ImageImport.BufferedImageLoader;
+import Rendering.Display;
+import Rendering.SpriteSheet;
+import Rendering.Window;
+import InputOutput.Handler;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 
 public class Game extends Canvas implements Runnable {
     public static final long serialVersionUID = 1550691097823471818L;
@@ -7,12 +26,13 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private boolean running = false;
     private final Handler handler;
-    public static SpriteSheet characterImages;
+    public static SpriteSheet characterImages, cropImages;
     private final Window window;
     private final Player player;
     public int frameRate;
     private final MouseInput mInput;
     private final Display display;
+    public static final GameObject[] allObjects = new GameObject[400];
 
     public Game() {
 
@@ -21,10 +41,13 @@ public class Game extends Canvas implements Runnable {
 
         BufferedImageLoader loader = new BufferedImageLoader();
         characterImages = new SpriteSheet(loader.loadImage("/Characters.png"));
+        cropImages = new SpriteSheet(loader.loadImage("/Crops.png"));
+
+        loadCrops(cropImages, "src/GameLogic/Crops.txt");
 
         handler = new Handler();
 
-        window = new Window(800, 500, "Farming Game", this);
+        window = new Window(800, 500, "Farming GameLogic.Game", this);
         player = new Player(750, 550, handler);
         display = new Display(window, player, handler);
 
@@ -33,6 +56,8 @@ public class Game extends Canvas implements Runnable {
         mInput.addClickable(display.getToolBar());
 
         this.addKeyListener(new KeyInput(handler, display));
+
+
 
     }
 
@@ -77,7 +102,7 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-                System.out.println("FPS: " + frames);
+//                System.out.println("FPS: " + frames);
                 frameRate = frames;
                 frames = 0;
             }
@@ -117,4 +142,36 @@ public class Game extends Canvas implements Runnable {
     public static void main(String[] args) {
         new Game();
     }
+
+    public void loadCrops(SpriteSheet sprites, String filePath) {
+        Scanner sc = null;
+
+        try {
+            sc = new Scanner(new File(filePath));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        String[] line;
+        //0|1  |2    |3    |4           |5   |6      |7
+        // |id |Type |Name |Sprite File |Row |Column |Days To Mature
+        sc.nextLine();
+
+        int id, row, col;
+
+        while (sc.hasNext()) {
+
+            line = sc.nextLine().split("[|]",-1);
+
+            id = Integer.parseInt(line[1].trim());
+            row = Integer.parseInt(line[5].trim());
+            col = Integer.parseInt(line[6].trim());
+
+            int[] days = Calcs.stringToIntArray(line[7],",");
+
+            allObjects[id] = new Crop(sprites,id,col,days);
+
+        }
+    }
+
 }

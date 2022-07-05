@@ -1,3 +1,5 @@
+package GameLogic;
+
 public class Calcs {
 
     public static int clamp( int var, int min, int max) {
@@ -14,5 +16,16 @@ public class Calcs {
         }
 
         return var;
+    }
+
+    public static int[] stringToIntArray(String string, String delimiter) {
+
+        String[] strings = string.trim().split(delimiter);
+        int[] ints = new int[strings.length];
+
+        for (int i = 0; i < ints.length; i++) {
+            ints[i] = Integer.parseInt(strings[i]);
+        }
+        return ints;
     }
 }

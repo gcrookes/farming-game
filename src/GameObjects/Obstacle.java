@@ -1,8 +1,13 @@
+package GameObjects;
+
+import GameLogic.Game;
+import GameObjects.GameObject;
+import InputOutput.Handler;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
-public class Obstacle extends GameObject{
+public class Obstacle extends GameObject {
 
     private final int width;
     private final int height;

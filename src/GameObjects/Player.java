@@ -1,9 +1,16 @@
+package GameObjects;
+
+import GameLogic.Game;
+import GameObjects.GameObject;
+import GameObjects.Obstacle;
+import InputOutput.Handler;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.Random;
 
-public class Player extends GameObject{
+public class Player extends GameObject {
     
     Random r = new Random();
     private static int WIDTH = 32;

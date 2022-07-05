@@ -1,3 +1,5 @@
+package Rendering;
+
 import java.awt.*;
 
 public interface Clickable {

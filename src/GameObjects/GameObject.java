@@ -1,3 +1,5 @@
+package GameObjects;
+
 import java.awt.*;
 
 public abstract class GameObject {

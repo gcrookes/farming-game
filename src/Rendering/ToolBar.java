@@ -1,20 +1,40 @@
+package Rendering;
+
+import GameItems.GameItem;
+import GameItems.Seed;
+import GameLogic.Game;
+import GameObjects.GameObject;
+
 import java.awt.*;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
-public class ToolBar extends GameObject implements Clickable{
+public class ToolBar extends GameObject implements Clickable {
 
-    private BufferedImage hoeImage, seedImage;
+    private BufferedImage hoeImage, seedImage, canImage;
     private int width, height, x, y, xOffset, yOffset, itemSelected = 0;
-    private MouseInput mInput;
     private Window window;
+    private GameItem[] items = new GameItem[9];
 
     public ToolBar(Window window) {
         super(0, 0);
+        this.window = window;
+
 
         hoeImage = Game.characterImages.grabImage(0,3, 32,32);
         seedImage = Game.characterImages.grabImage(1,3,32,32);
-        this.window = window;
+        canImage = Game.characterImages.grabImage(2,3,32,32);
+        BufferedImage seed1 = Game.cropImages.grabImage(0,0,32,32);
+        BufferedImage seed2 = Game.cropImages.grabImage(0,1,32,32);
+        BufferedImage seed3 = Game.cropImages.grabImage(0,2,32,32);
+        BufferedImage seed4 = Game.cropImages.grabImage(0,3,32,32);
+
+        items[0] = new GameItem(0, hoeImage);
+        items[1] = new Seed(1, seedImage);
+        items[2] = new GameItem(2, canImage);
+        items[3] = new Seed(3, seed1);
+        items[4] = new Seed(4, seed2);
+        items[5] = new Seed(5, seed3);
+        items[6] = new Seed(6, seed4);
 
         width = 360;
         height = 50;
@@ -22,15 +42,15 @@ public class ToolBar extends GameObject implements Clickable{
 
     public BufferedImage toolBarDisplay() {
 
-
-
         BufferedImage display = new BufferedImage(width,height,1);
         Graphics g = display.getGraphics();
 
         g.fillRect(0,0, width, height);
         g.drawRect(0, 0, width, height);
-        g.drawImage(hoeImage, 12, 12, null);
-        g.drawImage(seedImage, 50, 12, null);
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] == null) continue;
+            g.drawImage(items[i].getImage(), 12 + 38*i, 12, null);
+        }
 
         g.setColor(Color.RED);
         ((Graphics2D) g).setStroke(new BasicStroke(4));
@@ -83,7 +103,7 @@ public class ToolBar extends GameObject implements Clickable{
         itemSelected = (xClick - x - 10) / 38;
     }
 
-    public int getTool() {
-        return itemSelected;
+    public GameItem getTool() {
+        return items[itemSelected];
     }
 }

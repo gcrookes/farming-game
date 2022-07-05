@@ -1,0 +1,6 @@
+|id     |Type       |Name           |Sprite File        |Row    |Column
+|1      |Tool       |Hoe            |Characters.png     |0      |3
+|2      |Tool       |Pickaxe        |Characters.png     |3      |3
+|3      |Tool       |Axe            |Characters.png     |4      |3
+|4      |Tool       |Watering Can   |Characters.png     |2      |3
+|5      |Tool       |Scithe         |Characters.png     |5      |3

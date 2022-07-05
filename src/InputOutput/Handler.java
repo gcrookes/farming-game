@@ -1,10 +1,16 @@
+package InputOutput;
+
+import GameLogic.Game;
+import GameObjects.GameObject;
+import GameObjects.Obstacle;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.awt.Graphics;
 
 public class Handler {
 
-    LinkedList<GameObject> object = new LinkedList<GameObject>();
+    public LinkedList<GameObject> object = new LinkedList<GameObject>();
     
     public void tick(){
         for (int i = 0; i < object.size(); i++) {

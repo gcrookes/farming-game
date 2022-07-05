@@ -1,0 +1,6 @@
+|id     |Type       |Name           |Sprite File        |Row    |Column |Days To Mature
+|6      |Crop       |Strawberry     |Crops.png          |0      |0      |2,4,6,8
+|7      |Crop       |Turnip         |Crops.png          |0      |1      |1,2,3,4
+|8      |Crop       |Carrot         |Crops.png          |0      |2      |1,2,4,8
+|9      |Crop       |Lettuce        |Crops.png          |0      |3      |2,4,5,6
+|10     |Crop       |Peas           |Crops.png          |0      |4      |1,4,8,10
