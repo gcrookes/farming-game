@@ -51,7 +51,7 @@ public class Background {
 
     public void setCrop(int px, int py, GameItem seed) {
         int[] tile = getTile(px,py);
-//        cropsPlanted[tile[0]][tile[1]] = ((Seed) seed).getCrop();
+        cropsPlanted[tile[0]][tile[1]] = ((Seed) seed).getCrop();
     }
 
     public void updateTile(int px, int py, GameItem tool) {

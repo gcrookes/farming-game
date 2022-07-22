@@ -29,12 +29,12 @@ public class ToolBar extends GameObject implements Clickable {
         BufferedImage seed4 = Game.cropImages.grabImage(0,3,32,32);
 
         items[0] = new GameItem(0, hoeImage);
-        items[1] = new Seed(1, seedImage);
+        items[1] = new Seed(6, seedImage);
         items[2] = new GameItem(2, canImage);
-        items[3] = new Seed(3, seed1);
-        items[4] = new Seed(4, seed2);
-        items[5] = new Seed(5, seed3);
-        items[6] = new Seed(6, seed4);
+        items[3] = new Seed(7, seed1);
+        items[4] = new Seed(8, seed2);
+        items[5] = new Seed(9, seed3);
+        items[6] = new Seed(10, seed4);
 
         width = 360;
         height = 50;
