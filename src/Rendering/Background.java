@@ -69,6 +69,7 @@ public class Background {
             // Plant a seed
             setCrop(px, py, tool);
             setState(px, py, state + 1);
+            System.out.println(tool.getID());
         }
 
         if (state >= 2 && tool.getID() == 2) {

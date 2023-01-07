@@ -47,7 +47,7 @@ public class Game extends Canvas implements Runnable {
 
         handler = new Handler();
 
-        window = new Window(800, 500, "Farming GameLogic.Game", this);
+        window = new Window(800, 500, "Farming Game", this);
         player = new Player(750, 550, handler);
         display = new Display(window, player, handler);
 
@@ -56,8 +56,6 @@ public class Game extends Canvas implements Runnable {
         mInput.addClickable(display.getToolBar());
 
         this.addKeyListener(new KeyInput(handler, display));
-
-
 
     }
 
@@ -102,7 +100,6 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
-//                System.out.println("FPS: " + frames);
                 frameRate = frames;
                 frames = 0;
             }

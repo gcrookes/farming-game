@@ -1,8 +1,6 @@
 package GameObjects;
 
 import GameLogic.Game;
-import GameObjects.GameObject;
-import GameObjects.Obstacle;
 import InputOutput.Handler;
 
 import java.awt.*;
@@ -69,9 +67,6 @@ public class Player extends GameObject {
         }
     }
 
-    public void hoe() {
-
-    }
 
     @Override
     public void render(Graphics g) {
